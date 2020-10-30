@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:utils="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean class="com.overmind.spring.entity.Book" id="book"></bean>
+
+    <!--通过构造方法注入-->
+    <bean class="com.overmind.spring.entity.Book" id="book2">
+        <constructor-arg name="id" value="1"/>
+        <constructor-arg name="name" value="三国演义"/>
+        <constructor-arg name="price" value="25"/>
+    </bean>
+
+    <!--通过set方法注入-->
+    <bean class="com.overmind.spring.entity.Book" id="book3">
+        <property name="id" value="2"/>
+        <property name="name" value="水浒传"/>
+        <property name="price" value="30"/>
+    </bean>
+
+    <!--通过p名称空间注入-->
+    <bean class="com.overmind.spring.entity.Book" id="book4" p:id="3" p:name="西游记" p:price="40"/>
+
+
+
+    <!--特殊属性注入-->
+
+    <!--1.数组/集合-->
+    <!--1.1通过array节点注入-->
+    <bean class="com.overmind.spring.entity.Book" id="book5">
+        <property name="id" value="4"/>
+        <property name="name" value="红楼梦"/>
+        <property name="price" value="50"/>
+        <property name="authors">
+            <array>
+                <value>zhangsan</value>
+                <value>lisi</value>
+            </array>
+        </property>
+    </bean>
+
+    <!--1.2通过list节点注入-->
+    <bean class="com.overmind.spring.entity.Book" id="book6">
+        <property name="id" value="4"/>
+        <property name="name" value="红楼梦"/>
+        <property name="price" value="50"/>
+        <property name="authors">
+            <list>
+                <value>zhangsan</value>
+                <value>lisi</value>
+                <value>javaboy</value>
+            </list>
+        </property>
+    </bean>
+
+    <utils:list id="authors">
+        <value>zhangsan</value>
+        <value>lisi</value>
+        <value>javaboy</value>
+    </utils:list>
+
+    <!--2.map-->
+    <bean class="com.overmind.spring.entity.Book" id="book7">
+        <property name="id" value="5"/>
+        <property name="name" value="老人与海"/>
+        <property name="price" value="20"/>
+        <property name="authors" ref="authors"/>
+        <property name="info">
+            <map>
+                <entry key="name" value="zhangsan"/>
+                <entry key="age"  value="30"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean class="com.overmind.spring.entity.Book" id="book8">
+        <property name="id" value="5"/>
+        <property name="name" value="老人与海"/>
+        <property name="price" value="20"/>
+        <property name="authors" ref="authors"/>
+        <property name="info" ref="info"/>
+    </bean>
+
+    <utils:map id="info">
+        <entry key="name" value="lisi"/>
+        <entry key="age" value="98"/>
+    </utils:map>
+
+    <!--3.properties-->
+    <bean class="com.overmind.spring.entity.Book" id="book9">
+        <property name="id" value="5"/>
+        <property name="name" value="老人与海"/>
+        <property name="price" value="20"/>
+        <property name="authors" ref="authors"/>
+        <property name="info" ref="info"/>
+        <property name="info2">
+            <props>
+                <prop key="name">zhangsan</prop>
+                <prop key="age">25</prop>
+            </props>
+        </property>
+    </bean>
+
+    <utils:properties id="info2">
+        <prop key="name">zhangsan</prop>
+        <prop key="age">25</prop>
+    </utils:properties>
+
+    <bean class="com.overmind.spring.entity.Book" id="book10">
+        <property name="id" value="5"/>
+        <property name="name" value="老人与海"/>
+        <property name="price" value="20"/>
+        <property name="authors" ref="authors"/>
+        <property name="info" ref="info"/>
+        <property name="info2" ref="info2"/>
+    </bean>
+
+    <!--静态工厂-->
+    <bean class="com.overmind.spring.entity.BookFactory" id="book11" factory-method="getInstance"/>
+
+    <!--实例工厂-->
+    <bean class="com.overmind.spring.entity.BookFactory2" id="bookFactory2"/>
+    <bean class="com.overmind.spring.entity.Book" id="book12" factory-bean="bookFactory2" factory-method="getInstance"/>
+
+</beans>
